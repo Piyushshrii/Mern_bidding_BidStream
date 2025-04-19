@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000"; // Default to localhost if not set
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -91,7 +93,7 @@ export const register = (data) => async (dispatch) => {
   dispatch(userSlice.actions.registerRequest());
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/v1/user/register",
+      `${BACKEND_URL}/api/v1/user/register`,
       data,
       {
         withCredentials: true,
@@ -112,7 +114,7 @@ export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/v1/user/login",
+      `${BACKEND_URL}/api/v1/user/login`,
       data,
       {
         withCredentials: true,
@@ -132,7 +134,7 @@ export const login = (data) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/v1/user/logout",
+      `${BACKEND_URL}/api/v1/user/logout`,
       { withCredentials: true }
     );
     dispatch(userSlice.actions.logoutSuccess());
@@ -148,7 +150,7 @@ export const logout = () => async (dispatch) => {
 export const fetchUser = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/user/me", {
+    const response = await axios.get(`${BACKEND_URL}/api/v1/user/me`, {
       withCredentials: true,
     });
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
@@ -164,7 +166,7 @@ export const fetchLeaderboard = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchLeaderboardRequest());
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/v1/user/leaderboard",
+      `${BACKEND_URL}/api/v1/user/leaderboard`,
       {
         withCredentials: true,
       }
@@ -181,3 +183,4 @@ export const fetchLeaderboard = () => async (dispatch) => {
 };
 
 export default userSlice.reducer;
+

@@ -28,6 +28,7 @@ kind: Service
 metadata:
   name: backend
 spec:
+  type: LoadBalancer  
   selector:
     app: backend
   ports:

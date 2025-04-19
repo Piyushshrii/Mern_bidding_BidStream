@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+// Set the backend URL from the environment variable or default to localhost
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000"; 
+
 const commissionSlice = createSlice({
   name: "commission",
   initialState: {
@@ -24,7 +27,7 @@ export const postCommissionProof = (data) => async (dispatch) => {
   dispatch(commissionSlice.actions.postCommissionProofRequest());
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/v1/commission/proof",
+      `${BACKEND_URL}/api/v1/commission/proof`,
       data,
       {
         withCredentials: true,
@@ -40,3 +43,4 @@ export const postCommissionProof = (data) => async (dispatch) => {
 };
 
 export default commissionSlice.reducer;
+
