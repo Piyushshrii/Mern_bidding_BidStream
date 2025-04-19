@@ -6,6 +6,6 @@ metadata:
     app.kubernetes.io/instance: mern-app
 data:
   FRONTEND_URL: http://35.188.117.56
-  BACKEND_URL: 
+  BACKEND_URL:  http://34.9.115.192
   PORT: "5000"
 
