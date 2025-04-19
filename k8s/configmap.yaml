@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  FRONTEND_URL: http://frontend
+  PORT: "5000"
+
