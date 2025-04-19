@@ -19,7 +19,7 @@ spec:
             - containerPort: 5000
           envFrom:
             - secretRef:
-                name: backend-secrets
+                name: auction-backend-secrets
             - configMapRef:
                 name: backend-config
 ---
