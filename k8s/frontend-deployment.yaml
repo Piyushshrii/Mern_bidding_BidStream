@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: piyushh69/frontend-bidding-app:v1
+          image: piyushh69/frontend-bidding-app:v2
           ports:
             - containerPort: 80
 ---
