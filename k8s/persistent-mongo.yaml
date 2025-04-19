@@ -34,7 +34,7 @@ spec:
               mountPath: /data/db
           env:
             - name: MONGO_INITDB_DATABASE
-              value: MERN_AUCTION_PLATFORM
+              value: auction_db
   volumeClaimTemplates:
     - metadata:
         name: mongo-data
