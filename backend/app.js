@@ -15,7 +15,7 @@ import { verifyCommissionCron } from "./automation/verifyCommissionCron.js";
 
 const app = express();
 config({
-  path: "./config/config.env",
+  path: "./.env",
 });
 
 app.use(
