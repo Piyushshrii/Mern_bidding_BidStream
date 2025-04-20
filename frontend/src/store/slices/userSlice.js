@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000"; // Default to localhost if not set
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const userSlice = createSlice({
   name: "user",

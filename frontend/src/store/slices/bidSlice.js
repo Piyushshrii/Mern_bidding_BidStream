@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { getAuctionDetail } from "./auctionSlice";
 
 // Set the backend URL from the environment variable or default to localhost
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000"; 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const bidSlice = createSlice({
   name: "bid",
