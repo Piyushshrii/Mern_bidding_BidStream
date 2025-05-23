@@ -15,16 +15,17 @@ import { verifyCommissionCron } from "./automation/verifyCommissionCron.js";
 
 const app = express();
 config({
-  path: "./config/config.env",
+  path: "./.env",
 });
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: "*", // Allow all origins
     methods: ["POST", "GET", "PUT", "DELETE"],
-    credentials: true,
+    credentials: true, // This must be false or removed if origin is "*"
   })
 );
+
 
 app.use(cookieParser());
 app.use(express.json());
