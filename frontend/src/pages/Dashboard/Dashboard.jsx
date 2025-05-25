@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.superAdmin);
+
   useEffect(() => {
     dispatch(getMonthlyRevenue());
     dispatch(getAllUsers());
@@ -25,6 +26,7 @@ const Dashboard = () => {
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const navigateTo = useNavigate();
+
   useEffect(() => {
     if (user.role !== "Super Admin" || !isAuthenticated) {
       navigateTo("/");
@@ -36,41 +38,51 @@ const Dashboard = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          <div className="w-full ml-0 m-0 h-fit px-5 pt-20 lg:pl-[320px] flex flex-col gap-10">
-            <h1
-              className={`text-[#d6482b] text-2xl font-bold mb-2 min-[480px]:text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl`}
-            >
-              Dashboard
+        <section className="w-full min-h-screen bg-[#0F111A] text-white px-4 lg:px-8 py-20">
+          <div className="max-w-7xl mx-auto flex flex-col gap-12">
+            <h1 className="text-[#d6482b] text-3xl md:text-5xl font-bold text-center">
+              Super Admin Dashboard
             </h1>
-            <div className="flex flex-col gap-10">
-              <div>
-                <h3 className="text-[#111] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
+
+            <div className="grid gap-12">
+              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+                <h3 className="text-2xl font-semibold text-white mb-4">
                   Monthly Total Payments Received
                 </h3>
-                <PaymentGraph />
+                <div className="bg-[#0F111A] rounded-xl p-4">
+                  <PaymentGraph />
+                </div>
               </div>
-              <div>
-                <h3 className="text-[#111] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
+
+              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+                <h3 className="text-2xl font-semibold text-white mb-4">
                   Users
                 </h3>
-                <BiddersAuctioneersGraph />
+                <div className="bg-[#0F111A] rounded-xl p-4">
+                  <BiddersAuctioneersGraph />
+                </div>
               </div>
-              <div>
-                <h3 className="text-[#111] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
+
+              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+                <h3 className="text-2xl font-semibold text-white mb-4">
                   Payment Proofs
                 </h3>
-                <PaymentProofs />
+                <div className="bg-[#0F111A] rounded-xl p-4">
+                  <PaymentProofs />
+                </div>
               </div>
-              <div>
-                <h3 className="text-[#111] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
+
+              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+                <h3 className="text-2xl font-semibold text-white mb-4">
                   Delete Items From Auction
                 </h3>
-                <AuctionItemDelete />
+                <div className="bg-[#0F111A] rounded-xl p-4">
+                  <AuctionItemDelete />
+                </div>
               </div>
             </div>
           </div>
-        </>
+        </section>
       )}
     </>
   );

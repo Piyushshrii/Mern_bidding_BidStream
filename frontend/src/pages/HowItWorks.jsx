@@ -49,37 +49,29 @@ const HowItWorks = () => {
   ];
 
   return (
-    <>
-      <section className="w-full ml-0 m-0 h-fit px-5 pt-20 lg:pl-[320px] flex flex-col min-h-screen py-4 justify-center">
-        <h1
-          className={`text-[#d6482b] text-2xl font-bold mb-2 min-[480px]:text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl`}
-        >
-          Discover How BidStream Operates
-        </h1>
-        <div className="flex flex-col gap-4 my-5">
-          {steps.map((element, index) => {
-            return (
-              <div
-                key={index}
-                className="bg-white rounded-md p-2 lg:p-5 flex flex-col gap-2 group hover:bg-black transition-all duration-300"
-              >
-                <div className="bg-black text-white p-3 text-xl rounded-full w-fit group-hover:bg-[#d6482b] transition-all duration-300">
-                  {element.icon}
-                </div>
-                <h3
-                  className={`text-[#D6482B] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl`}
-                >
-                  {element.title}
-                </h3>
-                <p className="text-xl text-stone-700 group-hover:text-[#fff] transition-all duration-300">
-                  {element.description}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    </>
+    <section className="w-full min-h-screen bg-[#0e0f1a] text-white px-5 pt-24 lg:pl-[320px] flex flex-col py-4">
+      <h1 className="text-[#d6482b] text-3xl sm:text-4xl md:text-6xl font-bold mb-8">
+        Discover How BidStream Operates
+      </h1>
+      <div className="flex flex-col gap-6">
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            className="bg-[#1c1d2a] border border-[#2a2b3c] rounded-lg p-5 flex flex-col gap-4 transition-all duration-300 group hover:rounded-none hover:bg-[#d6482b] hover:text-[#0e0f1a] hover:border-white"
+          >
+            <div className="bg-[#d6482b] text-white p-3 text-xl rounded-full w-fit transition-all duration-300 group-hover:bg-white group-hover:text-[#0e0f1a]">
+              {step.icon}
+            </div>
+            <h3 className="text-[#d6482b] text-2xl font-semibold transition-all duration-300 group-hover:text-[#0e0f1a]">
+              {step.title}
+            </h3>
+            <p className="text-lg text-gray-300 group-hover:text-[#0e0f1a] transition-all duration-300">
+              {step.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

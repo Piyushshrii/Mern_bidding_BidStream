@@ -8,7 +8,7 @@ const Leaderboard = () => {
     <>
       <section className="my-8 lg:px-5">
         <div className="flex flex-col min-[340px]:flex-row min-[340px]:gap-2">
-          <h3 className="text-[#111] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
+          <h3 className="text-[#f6f6f6] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
             Top 10
           </h3>
           <h3 className="text-[#D6482B] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl">
@@ -19,10 +19,10 @@ const Leaderboard = () => {
           <table className="min-w-full bg-white border my-5 border-gray-300">
             <thead>
               <tr>
-                <th className="py-2 px-4 text-left">Profile Pic</th>
-                <th className="py-2 px-4 text-left">Username</th>
-                <th className="py-2 px-4 text-left">Bid Expenditure</th>
-                <th className="py-2 px-4 text-left">Auctions Won</th>
+                <th className="py-2 px-4 text-left text-gray-950">Profile Pic</th>
+                <th className="py-2 px-4 text-left text-gray-950">Username</th>
+                <th className="py-2 px-4 text-left text-gray-950">Bid Expenditure</th>
+                <th className="py-2 px-4 text-left text-gray-950">Auctions Won</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">

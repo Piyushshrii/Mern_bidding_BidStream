@@ -43,41 +43,39 @@ const Card = ({ imgSrc, title, startingBid, startTime, endTime, id }) => {
   };
 
   return (
-    <>
-      <Link
-        to={`/auction/item/${id}`}
-        className="flex-grow basis-full bg-white rounded-md group sm:basis-56 lg:basis-60 2xl:basis-80"
-      >
-        <img
-          src={imgSrc}
-          alt={title}
-          className="w-full aspect-[4/3] m-auto md:p-12"
-        />
-        <div className="px-2 pt-4 pb-2">
-          <h5 className="font-semibold text-[18px] group-hover:text-[#d6482b] mb-2">
-            {title}
-          </h5>
-          {startingBid && (
-            <p className="text-stone-600 font-light">
-              Starting Bid:{" "}
-              <span className="text-[#fdba88] font-bold ml-1">
-                {startingBid}
-              </span>
-            </p>
-          )}
-          <p className="text-stone-600 font-light">
-            {timeLeft.type}
-            {Object.keys(timeLeft).length > 1 ? (
-              <span className="text-[#fdba88] font-bold ml-1">
-                {formatTimeLeft(timeLeft)}
-              </span>
-            ) : (
-              <span className="text-[#fdba88] font-bold ml-1">Time's up!</span>
-            )}
+    <Link
+      to={`/auction/item/${id}`}
+      className="flex-grow basis-full bg-[#1e1e2f] rounded-xl shadow-md shadow-orange-500/10 hover:shadow-orange-500/30 transition-all duration-300 sm:basis-56 lg:basis-60 2xl:basis-80"
+    >
+      <img
+        src={imgSrc}
+        alt={title}
+        className="w-full aspect-[4/3] object-contain p-4 bg-[#2a2a3d] border-b border-[#3b3b4f]"
+      />
+      <div className="px-4 pt-3 pb-4 text-white">
+        <h5 className="font-semibold text-[18px] mb-2 group-hover:text-[#fd6a3c] transition-colors duration-200">
+          {title}
+        </h5>
+        {startingBid && (
+          <p className="text-gray-400 text-sm">
+            Starting Bid:{" "}
+            <span className="text-[#fdba88] font-bold ml-1">
+              {startingBid}
+            </span>
           </p>
-        </div>
-      </Link>
-    </>
+        )}
+        <p className="text-gray-400 text-sm mt-1">
+          {timeLeft.type}
+          {Object.keys(timeLeft).length > 1 ? (
+            <span className="text-[#fdba88] font-bold ml-1">
+              {formatTimeLeft(timeLeft)}
+            </span>
+          ) : (
+            <span className="text-[#fdba88] font-bold ml-1">Time's up!</span>
+          )}
+        </p>
+      </div>
+    </Link>
   );
 };
 

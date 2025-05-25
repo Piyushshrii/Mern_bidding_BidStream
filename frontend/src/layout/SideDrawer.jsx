@@ -13,6 +13,7 @@ import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/userSlice";
 import { Link } from "react-router-dom";
+import { FaLinkedin } from "react-icons/fa";
 
 const SideDrawer = () => {
   const [show, setShow] = useState(false);
@@ -33,16 +34,19 @@ const SideDrawer = () => {
         <GiHamburgerMenu />
       </div>
       <div
-        className={`w-[100%] sm:w-[300px] bg-[#f6f4f0] h-full fixed top-0 ${
+        className={`w-[100%] sm:w-[300px] bg-[#f5efe6] h-full fixed top-0 ${
           show ? "left-0" : "left-[-100%]"
         } transition-all duration-100 p-4 flex flex-col justify-between lg:left-0 border-r-[1px] border-r-stone-500`}
       >
         <div className="relative">
           <Link to={"/"}>
-            <h4 className="text-2xl font-semibold mb-4">
-              Bid<span className="text-[#D6482b]">Stream</span>
-            </h4>
-          </Link>
+  <h4 className="text-3xl font-bold mb-4 tracking-tight leading-none">
+    <span className="text-gray-950">Bid</span>
+    <span className="bg-gradient-to-r from-[#ff5722] to-[#D6482b] bg-clip-text text-transparent">
+      Stream
+    </span>
+  </h4>
+</Link>
           <ul className="flex flex-col gap-3">
             <li>
               <Link
@@ -162,18 +166,23 @@ const SideDrawer = () => {
 
         <div>
           <div className="flex gap-2 items-center mb-2">
-            <Link
-              to="/"
-              className="bg-white text-stone-500 p-2 text-xl rounded-sm hover:text-blue-700"
-            >
-              <FaFacebook />
-            </Link>
-            <Link
-              to="/"
-              className="bg-white text-stone-500 p-2 text-xl rounded-sm hover:text-pink-500"
-            >
-              <RiInstagramFill />
-            </Link>
+            <a
+  href="https://www.linkedin.com/in/piyush-shrivastava-858a61253"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-white text-stone-500 p-2 text-xl rounded-sm hover:text-blue-700"
+>
+  <FaLinkedin />
+</a>
+<a
+  href="https://www.instagram.com/piyush.shrii?igsh=eHJzeHBjY2Zqbml3"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-white text-stone-500 p-2 text-xl rounded-sm hover:text-pink-500"
+>
+  <RiInstagramFill />
+</a>
+
           </div>
           <Link
             to={"/contact"}
