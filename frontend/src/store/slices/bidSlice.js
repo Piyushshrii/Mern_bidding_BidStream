@@ -3,6 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { getAuctionDetail } from "./auctionSlice";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+
 const bidSlice = createSlice({
   name: "bid",
   initialState: {
@@ -24,7 +27,7 @@ const bidSlice = createSlice({
 export const placeBid = (id, data) => async (dispatch) => {
   dispatch(bidSlice.actions.bidRequest());
   try {
-    const response = await axios.post(`http://localhost:5000/api/v1/bid/place/${id}`, data, {
+    const response = await axios.post(`${BACKEND_URL}/api/v1/bid/place/${id}`, data, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });

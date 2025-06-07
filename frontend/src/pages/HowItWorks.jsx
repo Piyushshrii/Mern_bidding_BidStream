@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import {
   FaUser,
   FaGavel,
@@ -7,6 +7,7 @@ import {
   FaFileInvoice,
   FaRedo,
 } from "react-icons/fa";
+import gsap from "gsap";
 
 const HowItWorks = () => {
   const steps = [
@@ -48,6 +49,28 @@ const HowItWorks = () => {
     },
   ];
 
+  const stepsRef = useRef([]);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Set initial state
+      gsap.set(stepsRef.current, { opacity: 0, x: 1500 });
+
+      // Timeline to animate each box one after another
+      const tl = gsap.timeline();
+      stepsRef.current.forEach((el) => {
+        tl.to(el, {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "back.inOut",
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section className="w-full min-h-screen bg-[#0e0f1a] text-white px-5 pt-24 lg:pl-[320px] flex flex-col py-4">
       <h1 className="text-[#d6482b] text-3xl sm:text-4xl md:text-6xl font-bold mb-8">
@@ -57,6 +80,7 @@ const HowItWorks = () => {
         {steps.map((step, index) => (
           <div
             key={index}
+            ref={(el) => (stepsRef.current[index] = el)}
             className="bg-[#1c1d2a] border border-[#2a2b3c] rounded-lg p-5 flex flex-col gap-4 transition-all duration-300 group hover:rounded-none hover:bg-[#d6482b] hover:text-[#0e0f1a] hover:border-white"
           >
             <div className="bg-[#d6482b] text-white p-3 text-xl rounded-full w-fit transition-all duration-300 group-hover:bg-white group-hover:text-[#0e0f1a]">

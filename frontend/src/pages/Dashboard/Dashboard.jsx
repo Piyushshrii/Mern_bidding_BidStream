@@ -4,7 +4,7 @@ import {
   getAllUsers,
   getMonthlyRevenue,
 } from "@/store/slices/superAdminSlice";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuctionItemDelete from "./sub-components/AuctionItemDelete";
 import BiddersAuctioneersGraph from "./sub-components/BiddersAuctioneersGraph";
@@ -12,10 +12,20 @@ import PaymentGraph from "./sub-components/PaymentGraph";
 import PaymentProofs from "./sub-components/PaymentProofs";
 import Spinner from "@/custom-components/Spinner";
 import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.superAdmin);
+
+  const sectionRefs = useRef([]);
+  sectionRefs.current = [];
+
+  const addToRefs = (el) => {
+    if (el && !sectionRefs.current.includes(el)) {
+      sectionRefs.current.push(el);
+    }
+  };
 
   useEffect(() => {
     dispatch(getMonthlyRevenue());
@@ -33,6 +43,22 @@ const Dashboard = () => {
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    sectionRefs.current.forEach((el, index) => {
+      gsap.fromTo(
+        el,
+        { x: index % 2 === 0 ? -100 : 100, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          delay: index * 0.2,
+          ease: "power3.out",
+        }
+      );
+    });
+  }, [loading]);
+
   return (
     <>
       {loading ? (
@@ -45,38 +71,58 @@ const Dashboard = () => {
             </h1>
 
             <div className="grid gap-12">
-              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+              {/* Monthly Revenue */}
+              <div
+                ref={addToRefs}
+                className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg"
+              >
                 <h3 className="text-2xl font-semibold text-white mb-4">
                   Monthly Total Payments Received
                 </h3>
-                <div className="bg-[#0F111A] rounded-xl p-4">
+                <div className="bg-[#0F111A] rounded-xl p-4 overflow-x-auto">
                   <PaymentGraph />
                 </div>
               </div>
 
-              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+              {/* Users Graph */}
+              <div
+                ref={addToRefs}
+                className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg"
+              >
                 <h3 className="text-2xl font-semibold text-white mb-4">
                   Users
                 </h3>
-                <div className="bg-[#0F111A] rounded-xl p-4">
+                <div className="bg-[#0F111A] rounded-xl p-4 overflow-x-auto">
                   <BiddersAuctioneersGraph />
                 </div>
               </div>
 
-              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+              {/* Payment Proofs */}
+              <div
+                ref={addToRefs}
+                className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg"
+              >
                 <h3 className="text-2xl font-semibold text-white mb-4">
                   Payment Proofs
                 </h3>
-                <div className="bg-[#0F111A] rounded-xl p-4">
-                  <PaymentProofs />
+                <div className="bg-[#0F111A] rounded-xl p-4 overflow-x-auto">
+                  <div className="w-full flex justify-center">
+                    <div className="w-full max-w-2xl">
+                      <PaymentProofs />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg">
+              {/* Delete Items */}
+              <div
+                ref={addToRefs}
+                className="bg-[#1A1D2E] rounded-2xl p-6 shadow-lg"
+              >
                 <h3 className="text-2xl font-semibold text-white mb-4">
                   Delete Items From Auction
                 </h3>
-                <div className="bg-[#0F111A] rounded-xl p-4">
+                <div className="bg-[#0F111A] rounded-xl p-4 overflow-x-auto">
                   <AuctionItemDelete />
                 </div>
               </div>

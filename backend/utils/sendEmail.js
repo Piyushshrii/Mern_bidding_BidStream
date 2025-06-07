@@ -1,20 +1,26 @@
+// sendEmail.js
 import nodeMailer from "nodemailer";
+import dotenv from "dotenv";
 
-export const sendEmail = async ({ email, subject, message }) => {
+dotenv.config();
+
+export const sendEmail = async ({ name, email, phone, subject, message }) => {
   const transporter = nodeMailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    service: process.env.SMTP_SERVICE,
+    port: parseInt(process.env.SMTP_PORT), // 465 for secure
+    secure: true,
     auth: {
       user: process.env.SMTP_MAIL,
       pass: process.env.SMTP_PASSWORD,
     },
   });
-  const options = {
-    from: process.env.SMTP_MAIL,
-    to: email,
-    subject: subject,
-    text: message,
+
+  const mailOptions = {
+    from: `"${name}" <${process.env.SMTP_MAIL}>`,
+    to: process.env.SMTP_MAIL, // or any other target email address
+    subject: `New Contact Form: ${subject}`,
+    text: `You have a new message from:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
   };
-  await transporter.sendMail(options);
+
+  await transporter.sendMail(mailOptions);
 };

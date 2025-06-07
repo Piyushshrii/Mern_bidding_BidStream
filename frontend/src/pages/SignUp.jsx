@@ -1,7 +1,8 @@
-import { register } from "@/store/slices/userSlice";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { register } from "@/store/slices/userSlice";
+import gsap from "gsap";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
@@ -21,6 +22,27 @@ const SignUp = () => {
   const { loading, isAuthenticated } = useSelector((state) => state.user);
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
+
+  // Ref for the main container to animate
+  const containerRef = useRef(null);
+
+  // GSAP subtle entrance animation
+  useLayoutEffect(() => {
+  const ctx = gsap.context(() => {
+    gsap.fromTo(
+      containerRef.current,
+      { opacity: 0, y: 100 },      // smaller y offset = subtler movement
+      {
+        opacity: 1,
+        y: 0,
+        duration: 2,            // slower duration for more grace
+        delay: 0.8,               // slight delay, but less than 1
+        ease: "power3.out",       // smoother ease, less harsh than expo
+      }
+    );
+  }, containerRef);
+  return () => ctx.revert();
+}, []);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -46,7 +68,7 @@ const SignUp = () => {
     if (isAuthenticated) {
       navigateTo("/");
     }
-  }, [dispatch, loading, isAuthenticated]);
+  }, [dispatch, loading, isAuthenticated, navigateTo]);
 
   const imageHandler = (e) => {
     const file = e.target.files[0];
@@ -60,11 +82,15 @@ const SignUp = () => {
 
   return (
     <section className="w-full min-h-screen px-4 lg:px-8 py-20 bg-[#0F111A] text-white">
-      <div className="max-w-4xl mx-auto bg-[#1A1D2E] rounded-2xl shadow-xl p-6 md:p-10">
+      <div
+        ref={containerRef}
+        className="max-w-4xl mx-auto bg-[#1A1D2E] rounded-2xl shadow-xl p-6 md:p-10"
+      >
         <h1 className="text-center text-[#d6482b] font-bold text-3xl md:text-5xl mb-6">
           Register
         </h1>
         <form className="space-y-6" onSubmit={handleRegister}>
+          {/* ... rest of your form unchanged ... */}
           <div>
             <h2 className="text-xl font-semibold text-white mb-2">
               Personal Details
@@ -168,11 +194,21 @@ const SignUp = () => {
                   className="border-b border-gray-600 bg-transparent py-2 focus:outline-none text-white"
                   disabled={role === "Bidder"}
                 >
-                  <option className="bg-[#12131c] text-white" value="">Select Your Bank</option>
-                  <option className="bg-[#12131c] text-white" value="Meezan Bank">State Bank Of India</option>
-                  <option className="bg-[#12131c] text-white" value="UBL">HDFC Bank</option>
-                  <option className="bg-[#12131c] text-white" value="HBL">Kotak Mahindra Bank</option>
-                  <option className="bg-[#12131c] text-white" value="Allied Bank">Canara Bank</option>
+                  <option className="bg-[#12131c] text-white" value="">
+                    Select Your Bank
+                  </option>
+                  <option className="bg-[#12131c] text-white" value="Meezan Bank">
+                    State Bank Of India
+                  </option>
+                  <option className="bg-[#12131c] text-white" value="UBL">
+                    HDFC Bank
+                  </option>
+                  <option className="bg-[#12131c] text-white" value="HBL">
+                    Kotak Mahindra Bank
+                  </option>
+                  <option className="bg-[#12131c] text-white" value="Allied Bank">
+                    Canara Bank
+                  </option>
                 </select>
                 <input
                   type="text"

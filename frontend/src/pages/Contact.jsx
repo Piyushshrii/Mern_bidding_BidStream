@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
+import gsap from "gsap";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -12,6 +13,25 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
 
   const navigateTo = useNavigate();
+
+  const containerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, y: 100 }, // start invisible and below
+        {
+          opacity: 1,
+          y: 0,
+          duration: 2, // slow and smooth
+          delay: 0.8,
+          ease: "power3.out",
+        }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   const handleContactForm = (e) => {
     e.preventDefault();
@@ -45,7 +65,10 @@ const Contact = () => {
 
   return (
     <section className="w-full min-h-screen pt-24 px-4 lg:pl-[320px] bg-[#0d0d14] text-white flex justify-center">
-      <div className="w-full max-w-3xl bg-[#1b1d2a] rounded-xl shadow-lg p-8 md:p-12">
+      <div
+        ref={containerRef}
+        className="w-full max-w-3xl bg-[#1b1d2a] rounded-xl shadow-lg p-8 md:p-12"
+      >
         <h3 className="text-3xl font-bold text-[#f26440] mb-8 text-center">
           Contact Us
         </h3>

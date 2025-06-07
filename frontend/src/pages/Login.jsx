@@ -1,7 +1,8 @@
 import { login } from "@/store/slices/userSlice";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,8 @@ const Login = () => {
 
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
+
+  const containerRef = useRef(null);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -24,11 +27,32 @@ const Login = () => {
     if (isAuthenticated) {
       navigateTo("/");
     }
-  }, [dispatch, isAuthenticated, loading]);
+  }, [dispatch, isAuthenticated, loading, navigateTo]);
+
+  // GSAP animation for subtle fade-in and slide-up
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, y: 100 }, // subtle start below and invisible
+        {
+          opacity: 1,
+          y: 0,
+          duration: 2, // slow and smooth
+          delay: 0.8,
+          ease: "power3.out",
+        }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section className="w-full min-h-screen flex items-center justify-center bg-[#0e0f1a] px-4 py-16">
-      <div className="w-full max-w-2xl bg-[#151623] text-white rounded-2xl shadow-lg p-10 md:p-14">
+      <div
+        ref={containerRef}
+        className="w-full max-w-2xl bg-[#151623] text-white rounded-2xl shadow-lg p-10 md:p-14"
+      >
         <h1 className="text-center text-[#d6482b] font-bold text-4xl mb-10">
           Login
         </h1>

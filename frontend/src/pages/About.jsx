@@ -1,6 +1,34 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
 
 const About = () => {
+  const steps = 6; // Total number of animated blocks
+  const stepsRef = useRef([]);
+
+  useLayoutEffect(() => {
+    if (!stepsRef.current) return;
+
+    // Limit to available steps
+    stepsRef.current = stepsRef.current.slice(0, steps);
+
+    const ctx = gsap.context(() => {
+      gsap.set(stepsRef.current, { opacity: 0, x: 120 });
+
+      gsap.to(stepsRef.current, {
+        opacity: 1,
+        x: 0,
+        duration: 1.2,
+        ease: "power4.out", // smoother than expo for long text blocks
+        stagger: {
+          each: 0.5,
+          from: "start",
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   const values = [
     {
       id: 1,
@@ -29,10 +57,10 @@ const About = () => {
   ];
 
   return (
-    <section className="w-full min-h-screen bg-[#0e0f1a] text-white py-20 px-6 lg:ml-[320px]">
-      <div className="max-w-5xl space-y-16">
+    <section className="w-full min-h-screen bg-[#0e0f1a] text-white py-20 px-6 lg:ml-[320px] overflow-x-hidden">
+      <div className="max-w-5xl space-y-16" style={{ willChange: "opacity, transform" }}>
         {/* Header */}
-        <div className="space-y-4">
+        <div className="space-y-4" ref={(el) => (stepsRef.current[0] = el)}>
           <h1 className="text-[#d6482b] text-4xl font-extrabold md:text-6xl xl:text-7xl">
             About Us
           </h1>
@@ -42,7 +70,7 @@ const About = () => {
         </div>
 
         {/* Mission */}
-        <div className="space-y-4">
+        <div className="space-y-4" ref={(el) => (stepsRef.current[1] = el)}>
           <h3 className="text-2xl font-semibold text-[#d6482b]">Our Mission</h3>
           <p className="text-lg text-white/80">
             At BidStream, our mission is to revolutionize the way people buy and sell items online. We strive to create an engaging and trustworthy marketplace that empowers individuals and businesses to discover unique products, make informed decisions, and enjoy the thrill of competitive bidding.
@@ -50,7 +78,7 @@ const About = () => {
         </div>
 
         {/* Values */}
-        <div className="space-y-6">
+        <div className="space-y-6" ref={(el) => (stepsRef.current[2] = el)}>
           <h3 className="text-2xl font-semibold text-[#d6482b]">Our Values</h3>
           <ul className="space-y-4">
             {values.map((value) => (
@@ -66,7 +94,7 @@ const About = () => {
         </div>
 
         {/* Story */}
-        <div className="space-y-4">
+        <div className="space-y-4" ref={(el) => (stepsRef.current[3] = el)}>
           <h3 className="text-2xl font-semibold text-[#d6482b]">Our Story</h3>
           <p className="text-lg text-white/80">
             Founded by <span className="font-semibold text-white">Piyush Shrivastava</span>, BidStream was born out of a passion for connecting people with unique and valuable items. With years of experience in the auction industry, our team is committed to creating a platform that offers an unparalleled auction experience for users worldwide.
@@ -74,7 +102,7 @@ const About = () => {
         </div>
 
         {/* Join */}
-        <div className="space-y-4">
+        <div className="space-y-4" ref={(el) => (stepsRef.current[4] = el)}>
           <h3 className="text-2xl font-semibold text-[#d6482b]">Join Us</h3>
           <p className="text-lg text-white/80">
             Whether you're looking to buy, sell, or simply explore, BidStream invites you to join our growing community of auction enthusiasts. Discover new opportunities, uncover hidden gems, and experience the thrill of winning your next great find.
@@ -82,7 +110,7 @@ const About = () => {
         </div>
 
         {/* Closing */}
-        <div>
+        <div ref={(el) => (stepsRef.current[5] = el)}>
           <p className="text-[#d6482b] text-xl font-bold">
             Thank you for choosing BidStream. We look forward to being a part of your auction journey!
           </p>

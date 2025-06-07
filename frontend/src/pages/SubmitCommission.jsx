@@ -1,6 +1,7 @@
 import { postCommissionProof } from "@/store/slices/commissionSlice";
-import React, { useState } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import gsap from "gsap";
 
 const SubmitCommission = () => {
   const [proof, setProof] = useState("");
@@ -15,6 +16,30 @@ const SubmitCommission = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.commission);
 
+  const containerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        gsap.fromTo(
+          containerRef.current,
+          { opacity: 0, y: 100 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 2,
+            delay: 0,
+            ease: "power3.out",
+          }
+        );
+      }, containerRef);
+
+      return () => ctx.revert();
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   const handlePaymentProof = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -25,10 +50,15 @@ const SubmitCommission = () => {
   };
 
   return (
-    <section className="w-full min-h-screen bg-[#1f202b] px-5 pt-20 lg:pl-[320px] flex flex-col items-center justify-start py-8 text-white">
+    <section
+      ref={containerRef}
+      className="w-full min-h-screen bg-[#1f202b] px-5 pt-20 lg:pl-[320px] flex flex-col items-center justify-start py-8 text-white"
+    >
       <div className="bg-[#2b2c3b] w-full max-w-3xl px-6 py-8 rounded-xl shadow-lg">
         <form className="flex flex-col gap-6" onSubmit={handlePaymentProof}>
-          <h3 className="text-[#ff5722] text-3xl font-bold text-center">Upload Payment Proof</h3>
+          <h3 className="text-[#ff5722] text-3xl font-bold text-center">
+            Upload Payment Proof
+          </h3>
 
           {/* Amount Input */}
           <div className="flex flex-col gap-2">
@@ -43,7 +73,9 @@ const SubmitCommission = () => {
 
           {/* File Upload */}
           <div className="flex flex-col gap-2">
-            <label className="text-lg text-stone-300">Payment Proof (Screenshot)</label>
+            <label className="text-lg text-stone-300">
+              Payment Proof (Screenshot)
+            </label>
             <input
               type="file"
               onChange={proofHandler}

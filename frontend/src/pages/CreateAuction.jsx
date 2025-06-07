@@ -1,8 +1,9 @@
 import { createAuction } from "@/store/slices/auctionSlice";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateAuction = () => {
@@ -15,6 +16,25 @@ const CreateAuction = () => {
   const [startingBid, setStartingBid] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+
+  const containerRef = useRef(null); // Ref for animation
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 2,
+          delay: 0.8,
+          ease: "power3.out",
+        }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   const auctionCategories = [
     "Electronics",
@@ -65,7 +85,10 @@ const CreateAuction = () => {
   }, [isAuthenticated]);
 
   return (
-    <article className="w-full ml-0 px-5 pt-20 lg:pl-[320px] flex flex-col bg-[#0e0f1a] min-h-screen text-white">
+    <article
+      ref={containerRef}
+      className="w-full ml-0 px-5 pt-20 lg:pl-[320px] flex flex-col bg-[#0e0f1a] min-h-screen text-white"
+    >
       <h1 className="text-[#d6482b] text-4xl font-bold mb-6 text-center sm:text-left">
         Create Auction
       </h1>
@@ -95,7 +118,9 @@ const CreateAuction = () => {
                   className="py-2 px-2 bg-[#1b1c2e] border-b border-gray-600 text-white focus:outline-none appearance-none"
                   required
                 >
-                  <option className="bg-[#1b1c2e] text-white" value="">Select Category</option>
+                  <option className="bg-[#1b1c2e] text-white" value="">
+                    Select Category
+                  </option>
                   {auctionCategories.map((cat) => (
                     <option key={cat} value={cat} className="bg-[#1b1c2e] text-white">
                       {cat}
@@ -115,9 +140,15 @@ const CreateAuction = () => {
                 className="py-2 px-2 bg-[#1b1c2e] border-b border-gray-600 text-white focus:outline-none appearance-none"
                 required
               >
-                <option className="bg-[#1b1c2e] text-white" value="">Select Condition</option>
-                <option className="bg-[#1b1c2e] text-white" value="New">New</option>
-                <option className="bg-[#1b1c2e] text-white" value="Used">Used</option>
+                <option className="bg-[#1b1c2e] text-white" value="">
+                  Select Condition
+                </option>
+                <option className="bg-[#1b1c2e] text-white" value="New">
+                  New
+                </option>
+                <option className="bg-[#1b1c2e] text-white" value="Used">
+                  Used
+                </option>
               </select>
             </div>
             <div className="flex flex-col sm:flex-1">
@@ -173,7 +204,9 @@ const CreateAuction = () => {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-xl font-semibold mb-2 text-white">Auction Item Image</label>
+            <label className="text-xl font-semibold mb-2 text-white">
+              Auction Item Image
+            </label>
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
@@ -181,7 +214,11 @@ const CreateAuction = () => {
               >
                 <div className="flex flex-col items-center justify-center p-6">
                   {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="w-44 h-auto rounded-lg shadow-md" />
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-44 h-auto rounded-lg shadow-md"
+                    />
                   ) : (
                     <>
                       <svg
@@ -191,14 +228,28 @@ const CreateAuction = () => {
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M12 4v16m8-8H4"
+                        />
                       </svg>
-                      <p className="text-sm text-gray-400">Click to upload or drag and drop</p>
-                      <p className="text-xs text-gray-500 mt-1">SVG, PNG, JPG, GIF (max 800x400px)</p>
+                      <p className="text-sm text-gray-400">
+                        Click to upload or drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        SVG, PNG, JPG, GIF (max 800x400px)
+                      </p>
                     </>
                   )}
                 </div>
-                <input id="dropzone-file" type="file" className="hidden" onChange={imageHandler} />
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  className="hidden"
+                  onChange={imageHandler}
+                />
               </label>
             </div>
           </div>
