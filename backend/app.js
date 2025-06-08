@@ -20,7 +20,7 @@ config({
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: [process.env.FRONTEND_URL,process.env.VITE_BACKEND_URL],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })

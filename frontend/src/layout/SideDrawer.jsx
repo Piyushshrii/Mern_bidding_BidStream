@@ -10,10 +10,16 @@ import { IoMdCloseCircleOutline, IoIosCreate } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/userSlice";
 import { Link, useNavigate } from "react-router-dom";
-import gsap from "gsap";
+import gsap from "gsap";import { motion, AnimatePresence } from "framer-motion"; 
+import '../assets/fonts/fonts.css'; // Ensure you have the correct path to your CSS file
+
+
 
 const SideDrawer = () => {
   const [show, setShow] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
+  const [transitionColor, setTransitionColor] = useState("#D6482B"); // Default color
+
   const drawerRef = useRef(null);
   const hamburgerRef = useRef(null);
   const closeRef = useRef(null);
@@ -34,7 +40,7 @@ const SideDrawer = () => {
         x: 0,
         duration: 1.8,
         ease: "expo.out",
-        delay: 1,
+        delay: 2,
       });
 
       gsap.from(hamburgerRef.current, {
@@ -65,13 +71,23 @@ const SideDrawer = () => {
     }
   }, [show]);
 
-  const handleRedirect = (path) => {
+  const slideTransition = (path, color = "#D6482B") => {
+    setTransitionColor(color);
+    setTransitioning(true);
+    setTimeout(() => {
+      navigate(path);
+      setTransitioning(false);
+    }, 1300); // increased from 800ms to 1300ms (0.5s more)
+  };
+
+  const handleRedirect = (path, color) => {
     setShow(false);
-    setTimeout(() => navigate(path), 300); // Slight delay to let drawer animation complete
+    slideTransition(path, color);
   };
 
   return (
     <>
+      {/* Hamburger */}
       <div
         ref={hamburgerRef}
         onClick={() => setShow(true)}
@@ -80,6 +96,25 @@ const SideDrawer = () => {
         <GiHamburgerMenu />
       </div>
 
+      {/* Transition Layer */}
+      <AnimatePresence>
+        {transitioning && (
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 1.3, ease: "easeInOut" }} // increased duration here too
+            className="fixed top-0 left-0 w-full h-full z-[100] pointer-events-none flex items-center justify-center"
+            style={{ backgroundColor: transitionColor }}
+          >
+            <h1 className="text-white text-7xl font-extrabold select-none user-select-none tracking-wide uppercase">
+              Bid Stream
+            </h1>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Drawer */}
       <div
         ref={drawerRef}
         className="w-[100%] sm:w-[300px] bg-[#f5efe6] h-full fixed top-0 left-0 p-4 flex flex-col justify-between lg:left-0 border-r-[1px] border-r-stone-500 z-40"
@@ -87,8 +122,8 @@ const SideDrawer = () => {
         <div className="relative">
           <Link to={"/"}>
             <h4 className="text-3xl font-bold mb-4 tracking-tight leading-none">
-              <span className="text-gray-950">Bid</span>
-              <span className="bg-gradient-to-r from-[#ff5722] to-[#D6482b] bg-clip-text text-transparent">
+              <span className="text-gray-950 font-azonix">Bid</span>
+              <span className="bg-gradient-to-r from-[#ff5722] to-[#D6482b] bg-clip-text text-transparent font-azonix">
                 Stream
               </span>
             </h4>
@@ -96,41 +131,59 @@ const SideDrawer = () => {
 
           <ul className="flex flex-col gap-3">
             <li>
-              <Link to={"/auctions"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+              <button
+                onClick={() => handleRedirect("/auctions")}
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+              >
                 <RiAuctionFill /> Auctions
-              </Link>
+              </button>
             </li>
             <li>
-              <Link to={"/leaderboard"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+              <button
+                onClick={() => handleRedirect("/leaderboard", "#D6482B")}
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+              >
                 <MdLeaderboard /> Leaderboard
-              </Link>
+              </button>
             </li>
 
             {isAuthenticated && user?.role === "Auctioneer" && (
               <>
                 <li>
-                  <Link to={"/submit-commission"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+                  <button
+                    onClick={() => handleRedirect("/submit-commission")}
+                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+                  >
                     <FaFileInvoiceDollar /> Submit Commission
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link to={"/create-auction"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+                  <button
+                    onClick={() => handleRedirect("/create-auction")}
+                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+                  >
                     <IoIosCreate /> Create Auction
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link to={"/view-my-auctions"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+                  <button
+                    onClick={() => handleRedirect("/view-my-auctions")}
+                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+                  >
                     <FaEye /> View My Auctions
-                  </Link>
+                  </button>
                 </li>
               </>
             )}
 
             {isAuthenticated && user?.role === "Super Admin" && (
               <li>
-                <Link to={"/dashboard"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+                <button
+                  onClick={() => handleRedirect("/dashboard")}
+                  className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+                >
                   <MdDashboard /> Dashboard
-                </Link>
+                </button>
               </li>
             )}
           </ul>
@@ -165,20 +218,29 @@ const SideDrawer = () => {
           <ul className="flex flex-col gap-3">
             {isAuthenticated && (
               <li>
-                <Link to={"/me"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+                <button
+                  onClick={() => handleRedirect("/me")}
+                  className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+                >
                   <FaUserCircle /> Profile
-                </Link>
+                </button>
               </li>
             )}
             <li>
-              <Link to={"/how-it-works-info"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+              <button
+                onClick={() => handleRedirect("/how-it-works-info")}
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+              >
                 <SiGooglesearchconsole /> How it works
-              </Link>
+              </button>
             </li>
             <li>
-              <Link to={"/about"} className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]">
+              <button
+                onClick={() => handleRedirect("/about")}
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b]"
+              >
                 <BsFillInfoSquareFill /> About Us
-              </Link>
+              </button>
             </li>
           </ul>
 

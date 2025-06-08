@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp .env dist/.env",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve -s dist -l 5173"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -18,7 +19,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
-    "framer-motion": "^12.12.2",
+    "framer-motion": "^10.16.1",
     "gsap": "^3.13.0",
     "lucide-react": "^0.436.0",
     "react": "^18.3.1",

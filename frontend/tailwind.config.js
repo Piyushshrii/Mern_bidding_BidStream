@@ -17,6 +17,13 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        mera: ['"Mera Pro"', 'sans-serif'],
+        azonix: ['"Azonix"', 'sans-serif'], 
+        cornerstone: ['"Cornerstone"', 'sans-serif'],
+        merriweather: ['Merriweather', 'serif'],
+        inter: ['InterSemiBold', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -70,13 +77,40 @@ module.exports = {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        "fade-in-up": {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "zoom-in": {
+          from: { opacity: "0", transform: "scale(0.8)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "fade-in-scale": {
+          "0%": { opacity: 0, transform: "scale(0.9)" },
+          "100%": { opacity: 1, transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 6s ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.8s ease-out",
+        "zoom-in": "zoom-in 0.6s ease-in-out",
+        "fade-in-scale": "fade-in-scale 0.6s ease-out",
+      },
+      boxShadow: {
+        neon: "0 0 10px #fd6843, 0 0 20px #fd6843, 0 0 30px #fd6843",
+        "white-glow": "0 0 10px #fff, 0 0 20px #fff",
+      },
+      spacing: {
+        "18": "4.5rem",
+        "22": "5.5rem",
+        "30": "7.5rem",
+      },
+      fontSize: {
+        "hero": "clamp(2rem, 5vw, 4.5rem)",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
