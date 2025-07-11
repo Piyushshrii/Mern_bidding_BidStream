@@ -163,6 +163,26 @@ stringData:
   CLOUDINARY_API_SECRET: <your_api_secret>
   SMTP_PASSWORD: <mail_id_app_password>
 ```
+### Edit k8s/backend-config.yaml
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: default
+data:
+  PORT: "5000"
+  COOKIE_EXPIRE: "7"
+  JWT_EXPIRE: "7d"
+  FRONTEND_URL: "https://piyush-web-app.co.in"                                  //use your domain
+  VITE_BACKEND_URL: "https://piyush-web-app.co.in"                              //use your domain:
+  CLOUDINARY_CLOUD_NAME: "your_cloudinary_cloud_name"
+  SMTP_SERVICE: "gmail"
+  SMTP_PORT: "465"
+  SMTP_HOST: "smtp.gmail.com"
+  SMTP_MAIL: "your_email_id"
+
+```
 
 ### ⚙️ 2.2 Apply Deployments
 
