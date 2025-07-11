@@ -7,7 +7,8 @@ This guide walks you through the steps taken to deploy the **BidStream** MERN-ba
 - Kubernetes Dashboard (exposed via LoadBalancer)
 - Automated deployment (Gitops, ArgoCD used)
 
-  <img width="3601" height="2207" alt="diagram-export-7-11-2025-11_49_05-AM" src="https://github.com/user-attachments/assets/422104e6-cf5b-4c61-abf7-8374097364f5" />
+![architecure diagram](https://github.com/user-attachments/assets/1f1fef0f-7771-4125-8354-5691ffe9eb8b)
+
 
   ## GCP Standard CLuster Configuration
   <img width="2557" height="1218" alt="k8s-gcp-cluster" src="https://github.com/user-attachments/assets/a56a5bc4-f527-4307-8764-28e6cac17878" />
