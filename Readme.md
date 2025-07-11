@@ -379,6 +379,7 @@ kubectl get ns
 <img width="867" height="620" alt="kubectl get all" src="https://github.com/user-attachments/assets/e8b279b0-eb6e-4aa9-9974-da4c9cbe0e03" />
 <img width="750" height="343" alt="k8s-ns all" src="https://github.com/user-attachments/assets/6a5ead43-ccfb-49e5-85ff-efc3b88845a5" />
 ## Website Deployed :)
+Access it on - https://piyush-web-app.co.in  or domain you used
 <img width="2547" height="1336" alt="website-deployed image" src="https://github.com/user-attachments/assets/95499eef-6fe3-4851-9871-933daafaf006" />
 
 
