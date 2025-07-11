@@ -378,7 +378,7 @@ kubectl get ns
 <img width="750" height="343" alt="k8s-ns all" src="https://github.com/user-attachments/assets/6a5ead43-ccfb-49e5-85ff-efc3b88845a5" />
 
 ```
-## Website Deployed 
+## Website Deployed :)
 <img width="2547" height="1336" alt="website-deployed image" src="https://github.com/user-attachments/assets/95499eef-6fe3-4851-9871-933daafaf006" />
 
 
