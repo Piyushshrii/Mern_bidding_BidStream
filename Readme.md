@@ -58,8 +58,8 @@ PORT=5000
 MONGO_URI=<your_mongodb_connection_string>
 JWT_SECRET_KEY=<your_secret>
 PORT=5000
-FRONTEND_URL=https://piyush-web-app.co.in
-VITE_BACKEND_URL=https://piyush-web-app.co.in
+FRONTEND_URL=https://piyush-web-app.co.in                                                //use_your_domain
+VITE_BACKEND_URL=https://piyush-web-app.co.in                                            //use_your_domain
 JWT_EXPIRE=7d
 COOKIE_EXPIRE=7
 CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
@@ -174,8 +174,8 @@ data:
   PORT: "5000"
   COOKIE_EXPIRE: "7"
   JWT_EXPIRE: "7d"
-  FRONTEND_URL: "https://piyush-web-app.co.in"                                  //use your domain
-  VITE_BACKEND_URL: "https://piyush-web-app.co.in"                              //use your domain:
+  FRONTEND_URL: "https://piyush-web-app.co.in"                                  //use_your_domain
+  VITE_BACKEND_URL: "https://piyush-web-app.co.in"                              //use_your_domain:
   CLOUDINARY_CLOUD_NAME: "your_cloudinary_cloud_name"
   SMTP_SERVICE: "gmail"
   SMTP_PORT: "465"
