@@ -148,10 +148,20 @@ Use the `EXTERNAL-IP` of the `ingress-nginx-controller` service to map your doma
 
 ## 🚀 Step 2: Deploy the App to GKE
 
-### 🔒 2.1 Create Kubernetes Secrets
-
-```bash
-kubectl create secret generic backend-secrets   --from-literal=MONGO_URI='your-mongo-uri'   --from-literal=JWT_SECRET_KEY='your-jwt-key'   --from-literal=EMAIL_USER='xyz@gmail.com'   --from-literal=EMAIL_PASS='secure-pass'
+### 🔒 2.1 Create Kubernetes Secrets k8s/backend-secrets.yaml
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secrets
+  namespace: default
+type: Opaque
+stringData:
+  MONGO_URI: <your_mongodb_connection_string>
+  JWT_SECRET_KEY: <your_secret>
+  CLOUDINARY_API_KEY: <your_api_key>
+  CLOUDINARY_API_SECRET: <your_api_secret>
+  SMTP_PASSWORD: <mail_id_app_password>
 ```
 
 ### ⚙️ 2.2 Apply Deployments
