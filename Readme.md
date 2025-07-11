@@ -3,7 +3,7 @@
 
 This guide walks you through the steps taken to deploy the **BidStream** MERN-based bidding application to a **GKE Kubernetes Cluster** using:
 - Docker + Kubernetes manifest
-- Ngnix Ingress Setup via Helm charts
+- Ngnix Ingress Controller Setup via Helm charts
 - Kubernetes Dashboard (exposed via LoadBalancer)
 - Automated deployment (Gitops, ArgoCD used)
 
