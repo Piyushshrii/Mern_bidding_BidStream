@@ -5,6 +5,9 @@ This guide walks you through the steps taken to deploy the **BidStream** MERN-ba
 - Docker + Kubernetes manifests
 - Kubernetes Dashboard (exposed via LoadBalancer)
 - Manual deployment (No GitOps, No Helm, No ArgoCD used)
+
+  <img width="3601" height="2207" alt="diagram-export-7-11-2025-11_49_05-AM" src="https://github.com/user-attachments/assets/422104e6-cf5b-4c61-abf7-8374097364f5" />
+
 ---
 
 ## 📁 Project Structure
