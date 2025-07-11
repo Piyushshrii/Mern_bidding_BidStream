@@ -309,6 +309,7 @@ spec:
       selfHeal: true
 EOF
 ```
+<img width="2542" height="1283" alt="argocd" src="https://github.com/user-attachments/assets/f70b4ddf-4a84-4b91-8fc0-8a9056a3ecdb" />
 
 
 ## 🖥️ Kubernetes Dashboard Setup
