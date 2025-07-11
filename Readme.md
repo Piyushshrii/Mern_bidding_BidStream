@@ -144,10 +144,12 @@ kubectl get svc -n ingress-nginx
 
 Use the `EXTERNAL-IP` of the `ingress-nginx-controller` service to map your domain.
 #### example 
+
+```bash
 NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE
 ingress-nginx-controller             LoadBalancer   10.12.4.113    34.173.73.104   80:31837/TCP,443:31457/TCP   12m
 ingress-nginx-controller-admission   ClusterIP      10.12.1.150    <none>          443/TCP                      12m
-
+```
 
 ### 🌐 Point Domain to Your GKE LoadBalancer (A Record)
 Once you get the EXTERNAL-IP from:
