@@ -231,8 +231,49 @@ kubectl apply -f k8s/frontend-deployment.yaml
 ```
 
 ### 🌐 2.3 Apply Ingress
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: piyush-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - piyush-web-app.co.in                                         //use_your_domain
+      secretName: piyush-web-app-tls                                   //change_secret_name
+  rules:
+    - host: piyush-web-app.co.in
+      http:
+        paths:
+          - path: /.well-known/acme-challenge
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
 
-You’ll edit this file (later) to use the domain and proper rewrite annotations.
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 5000
+
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
+```
 
 ```bash
 kubectl apply -f k8s/ingress.yaml
