@@ -34,23 +34,42 @@ BidStream/
 ### 🔧 backend/.env.docker (Development)
 
 ```
+MONGO_URI=<your_mongodb_connection_string>
+JWT_SECRET_KEY= <your_secret>
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/auction_db
-JWT_SECRET_KEY=dev-secret
-EMAIL_USER=dev-email@gmail.com
-EMAIL_PASS=dev-password
 FRONTEND_URL=http://localhost:5173
+VITE_BACKEND_URL=http://localhost:5000
+JWT_EXPIRE=7d
+COOKIE_EXPIRE=7
+CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
+CLOUDINARY_API_KEY=<your_api_key>
+CLOUDINARY_API_SECRET=<your_api_secret>
+SMTP_SERVICE=gmail
+SMTP_PORT=465
+SMTP_HOST=smtp.gmail.com
+SMTP_MAIL=<your_mail_id>
+SMTP_PASSWORD=< mail_id_app_password> 
 ```
 
 ### 🌐 backend/.env.docker (Production)
 
 ```
 PORT=5000
-MONGO_URI=mongodb+srv://<your-uri>
-JWT_SECRET_KEY=your-secret
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-password
+MONGO_URI=<your_mongodb_connection_string>
+JWT_SECRET_KEY=<your_secret>
+PORT=5000
 FRONTEND_URL=https://piyush-web-app.co.in
+VITE_BACKEND_URL=https://piyush-web-app.co.in
+JWT_EXPIRE=7d
+COOKIE_EXPIRE=7
+CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
+CLOUDINARY_API_KEY=<your_api_key>
+CLOUDINARY_API_SECRET=<your_api_secret>
+SMTP_SERVICE=gmail
+SMTP_PORT=465
+SMTP_HOST=smtp.gmail.com
+SMTP_MAIL=<your_mail_id>
+SMTP_PASSWORD=< mail_id_app_password> 
 ```
 
 ### 🔧 frontend/.env.docker (Development)
