@@ -143,6 +143,44 @@ kubectl get svc -n ingress-nginx
 ```
 
 Use the `EXTERNAL-IP` of the `ingress-nginx-controller` service to map your domain.
+#### example 
+NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.12.4.113    34.173.73.104   80:31837/TCP,443:31457/TCP   12m
+ingress-nginx-controller-admission   ClusterIP      10.12.1.150    <none>          443/TCP                      12m
+
+
+### 🌐 Point Domain to Your GKE LoadBalancer (A Record)
+Once you get the EXTERNAL-IP from:
+
+bash
+Copy
+Edit
+kubectl get svc -n ingress-nginx
+Add that IP as an A Record in the DNS settings of your domain provider (e.g., GoDaddy, Namecheap, Google Domains):
+
+✅ Steps:
+Go to your domain provider's DNS Management section.
+
+Add a new A Record:
+
+Host/Name: @ (or www, or leave empty depending on your provider)
+
+Type: A
+
+Value: <EXTERNAL-IP> (e.g., 34.173.73.104)
+
+TTL: Default or 600 seconds
+
+Save the record.
+
+🔁 It may take a few minutes (up to 24 hours) for DNS propagation.
+
+🔎 Example:
+Type	Name	Value	TTL
+A	@	34.173.73.104	600
+
+This will make your app accessible at your custom domain, e.g., https://piyush-web-app.co.in. Let me know if you need help verifying DNS propagation.
+
 
 ---
 
