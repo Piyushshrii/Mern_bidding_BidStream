@@ -29,40 +29,62 @@ BidStream/
 
 ---
 
-## 🧪 Sample .env.docker Files
+## 🧪 Sample .env.docker Files (Development vs Production)
 
-### `backend/.env.docker.example`
+### 🔧 backend/.env.docker (Development)
+
+```
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/auction_db
+JWT_SECRET_KEY=dev-secret
+EMAIL_USER=dev-email@gmail.com
+EMAIL_PASS=dev-password
+FRONTEND_URL=http://localhost:5173
+```
+
+### 🌐 backend/.env.docker (Production)
 
 ```
 PORT=5000
 MONGO_URI=mongodb+srv://<your-uri>
 JWT_SECRET_KEY=your-secret
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-email-password
-FRONTEND_URL=https://<your-frontend-url>
+EMAIL_PASS=your-password
+FRONTEND_URL=https://piyush-web-app.co.in
 ```
 
-### `frontend/.env.docker.example`
+### 🔧 frontend/.env.docker (Development)
 
 ```
-VITE_BACKEND_URL=https://<your-backend-url>
+VITE_BACKEND_URL=http://localhost:5000
 ```
+
+### 🌐 frontend/.env.docker (Production)
+
+```
+VITE_BACKEND_URL=https://piyush-web-app.co.in
+```
+
+> ⚠️ **Note**: In production, ensure that your domain (e.g. `piyush-web-app.co.in`) is pointed to your GKE LoadBalancer IP via DNS A-record.
 
 ---
 
 ## 🔨 Step 0: Build and Push Docker Images to GCR
 
-Make sure you're authenticated with GCR (`gcloud auth configure-docker`). Then:
+Make sure you're authenticated with GCR:
+
+```bash
+gcloud auth configure-docker
+```
 
 ### 📦 Backend
 
 ```bash
 cd Mern_bidding_BidStream/backend
 
-# Use .env.docker when building (optional copy)
+# Use .env.docker when building
 cp .env.docker .env
 
-# Build & Push
 docker build -t gcr.io/YOUR_PROJECT_ID/backend:latest .
 docker push gcr.io/YOUR_PROJECT_ID/backend:latest
 ```
@@ -72,119 +94,120 @@ docker push gcr.io/YOUR_PROJECT_ID/backend:latest
 ```bash
 cd Mern_bidding_BidStream/frontend
 
-# Use .env.docker when building (optional copy)
+# Use .env.docker when building
 cp .env.docker .env
 
-# Build & Push
 docker build -t gcr.io/YOUR_PROJECT_ID/frontend:latest .
 docker push gcr.io/YOUR_PROJECT_ID/frontend:latest
 ```
 
-✅ Now replace the image names in `k8s/backend-deployment.yaml` and `k8s/frontend-deployment.yaml` with the GCR image paths.
+✅ Now update the image names in:
+
+- `k8s/backend-deployment.yaml`
+- `k8s/frontend-deployment.yaml`
 
 ---
 
-## 🚀 Deployment Steps
+## 📥 Step 1: Install NGINX Ingress Controller via Helm
 
-### 1. 🔒 Create Kubernetes Secrets
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm upgrade --install ingress-nginx ingress-nginx   --namespace ingress-nginx --create-namespace   --set controller.service.type=LoadBalancer
+```
+
+After a few seconds, run:
+
+```bash
+kubectl get svc -n ingress-nginx
+```
+
+Use the `EXTERNAL-IP` of the `ingress-nginx-controller` service to map your domain.
+
+---
+
+## 🚀 Step 2: Deploy the App to GKE
+
+### 🔒 2.1 Create Kubernetes Secrets
 
 ```bash
 kubectl create secret generic backend-secrets   --from-literal=MONGO_URI='your-mongo-uri'   --from-literal=JWT_SECRET_KEY='your-jwt-key'   --from-literal=EMAIL_USER='xyz@gmail.com'   --from-literal=EMAIL_PASS='secure-pass'
 ```
 
----
-
-### 2. 📦 Deploy Backend and Frontend
+### ⚙️ 2.2 Apply Deployments
 
 ```bash
 kubectl apply -f k8s/backend-deployment.yaml
 kubectl apply -f k8s/frontend-deployment.yaml
 ```
 
----
+### 🌐 2.3 Apply Ingress
 
-### 3. 🌐 Ingress Setup
+You’ll edit this file (later) to use the domain and proper rewrite annotations.
 
 ```bash
 kubectl apply -f k8s/ingress.yaml
 ```
 
-> You used `VITE_BACKEND_URL` and `FRONTEND_URL` pointing to the domain/IP exposed via NGINX Ingress.
-
 ---
 
-### 4. 🖥️ Kubernetes Dashboard Access
+## 🖥️ Kubernetes Dashboard Setup
 
-You exposed the dashboard with:
+### 📦 Deploy Kubernetes Dashboard
+
+You used the latest dashboard deployment and exposed it:
 
 ```bash
 kubectl patch svc kubernetes-dashboard -n kubernetes-dashboard   -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
-Get the external IP:
-
-```bash
-kubectl get svc -n kubernetes-dashboard
-```
-
-Access the dashboard via:
-
-```
-https://<EXTERNAL-IP>:443
-```
-
-Login with `kubeconfig` or token:
+### 🔑 Create Admin Token
 
 ```bash
 kubectl create serviceaccount admin-user -n kubernetes-dashboard
+
 kubectl create clusterrolebinding admin-user-binding   --clusterrole=cluster-admin   --serviceaccount=kubernetes-dashboard:admin-user
 
 kubectl -n kubernetes-dashboard create token admin-user
 ```
 
----
+Then access it at:
 
-### 5. ❌ Optional Tools (NOT USED)
-
-You **did not** use:
-- Argo CD
-- Helm Charts
-- Loki/Grafana/OpenSearch (all removed)
-
----
-
-## ✅ Useful Commands
-
-```bash
-kubectl get all
-kubectl get svc -A
-kubectl delete ns <namespace>
-kubectl describe ingress
-kubectl logs -f <pod>
 ```
-
----
-
-## 🌐 Domain Mapping
-
-If you have a domain (`e.g. piyush-web-app.co.in`), point it to the **LoadBalancer IP** and use an `A-record`.
+https://<dashboard-lb-ip>:443
+```
 
 ---
 
 ## 🧩 Final App Access
 
-- **Frontend App**: via domain or LoadBalancer IP (`https://<ip>/`)
-- **K8s Dashboard**: `https://<ip>:443` → login via kubeconfig
+- **Frontend App**: https://piyush-web-app.co.in or LoadBalancer IP
+- **K8s Dashboard**: https://<dashboard-lb-ip>:443 → login with token
+
+---
+
+## 🛠️ Common Commands
+
+```bash
+kubectl get all
+kubectl get svc -A
+kubectl describe ingress
+kubectl logs -f <pod-name>
+kubectl delete -f <yaml>
+kubectl delete ns <namespace>
+```
 
 ---
 
 ## 📝 Summary
 
-- ✅ You deployed BidStream using raw Kubernetes YAMLs
-- ✅ Used `kubectl apply` for backend, frontend, secrets, ingress
-- ✅ Exposed the dashboard via LoadBalancer
-- ✅ Docker images pushed to GCR
-- ❌ Skipped GitOps, Helm, ArgoCD, observability tools
+- ✅ Dockerized and pushed images to GCR
+- ✅ Installed NGINX Ingress via Helm
+- ✅ Configured secrets, deployments, ingress
+- ✅ Exposed Dashboard via LoadBalancer
+- ✅ Environment separation: dev vs prod
+- ❌ No Helm/ArgoCD/GitOps tools used
 
 ---
 
