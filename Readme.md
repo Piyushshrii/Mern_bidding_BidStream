@@ -6,7 +6,7 @@ This guide walks you through the steps taken to deploy the **BidStream** MERN-ba
 - Kubernetes Dashboard (exposed via LoadBalancer)
 - Manual deployment (No GitOps, No Helm, No ArgoCD used)
 
-  <img width="3601" height="2211" alt="image" src="https://github.com/user-attachments/assets/93b6125c-239d-4c5a-bbcc-a31485698c6c" />
+  [<img width="3601" height="2211" alt="image" src="https://github.com/user-attachments/assets/93b6125c-239d-4c5a-bbcc-a31485698c6c" />](https://app.eraser.io/workspace/XKpiAngQtUJIhvIERlmO?origin=share)
 
 
 ---
