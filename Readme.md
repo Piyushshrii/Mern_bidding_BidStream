@@ -177,12 +177,11 @@ Save the record.
 
 🔁 It may take a few minutes (up to 24 hours) for DNS propagation.
 
-🔎 Example:
+```bash🔎 Example:
 Type	Name	Value	TTL
 A	@	34.173.73.104	600
-
-This will make your app accessible at your custom domain, e.g., https://piyush-web-app.co.in. Let me know if you need help verifying DNS propagation.
-
+```
+This will make your app accessible at your custom domain, e.g., https://piyush-web-app.co.in or the domain of your choice.
 
 ---
 
