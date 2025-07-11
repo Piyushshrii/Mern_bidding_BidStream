@@ -2,11 +2,16 @@
 # 🧾 BidStream - MERN Bidding App Deployment Guide (GKE + Kubernetes Dashboard)
 
 This guide walks you through the steps taken to deploy the **BidStream** MERN-based bidding application to a **GKE Kubernetes Cluster** using:
-- Docker + Kubernetes manifests
+- Docker + Kubernetes manifest
+- Ngnix Ingress Setup via Helm charts
 - Kubernetes Dashboard (exposed via LoadBalancer)
-- Manual deployment (No GitOps, No Helm, No ArgoCD used)
+- Automated deployment (Gitops, ArgoCD used)
 
   <img width="3601" height="2207" alt="diagram-export-7-11-2025-11_49_05-AM" src="https://github.com/user-attachments/assets/422104e6-cf5b-4c61-abf7-8374097364f5" />
+
+  ## GCP Standard CLuster
+  <img width="2557" height="1218" alt="k8s-gcp-cluster" src="https://github.com/user-attachments/assets/a56a5bc4-f527-4307-8764-28e6cac17878" />
+
 
 ---
 
@@ -347,31 +352,35 @@ https://<dashboard-lb-ip>:443
 - **Frontend App**: https://piyush-web-app.co.in or LoadBalancer IP
 - **K8s Dashboard**: https://<dashboard-lb-ip>:443 → login with token
 
+  <img width="2556" height="1323" alt="k8s-dashboard" src="https://github.com/user-attachments/assets/d40088b3-f594-42cb-a26a-f8ed37af1fc2" />
+  <img width="2560" height="1243" alt="k8s-deployment" src="https://github.com/user-attachments/assets/392bdd63-4fa7-405e-9c2a-627d92c4b251" />
+
+  ### Ingress Detail
+  <img width="2560" height="1247" alt="k8s-ingress-detail" src="https://github.com/user-attachments/assets/fd69d4a3-1ea2-4dcc-9e2a-ed4af2ddfeef" />
+
+
+
+
 ---
 
 ## 🛠️ Common Commands
 
 ```bash
 kubectl get all
+<img width="867" height="620" alt="kubectl get all" src="https://github.com/user-attachments/assets/e8b279b0-eb6e-4aa9-9974-da4c9cbe0e03" />
+
 kubectl get svc -A
 kubectl describe ingress
 kubectl logs -f <pod-name>
 kubectl delete -f <yaml>
 kubectl delete ns <namespace>
+kubectl get ns
+<img width="750" height="343" alt="k8s-ns all" src="https://github.com/user-attachments/assets/6a5ead43-ccfb-49e5-85ff-efc3b88845a5" />
+
 ```
+## Website Deployed 
+<img width="2547" height="1336" alt="website-deployed image" src="https://github.com/user-attachments/assets/95499eef-6fe3-4851-9871-933daafaf006" />
 
----
-
-## 📝 Summary
-
-- ✅ Dockerized and pushed images to GCR
-- ✅ Installed NGINX Ingress via Helm
-- ✅ Configured secrets, deployments, ingress
-- ✅ Exposed Dashboard via LoadBalancer
-- ✅ Environment separation: dev vs prod
-- ❌ No Helm/ArgoCD/GitOps tools used
-
----
 
 ## 📜 License
 
