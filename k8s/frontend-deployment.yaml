@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: gcr.io/PROJECT_ID/frontend-auction:latest
+          image: gcr.io/PROJECT_ID/frontend-auction:latest                                                           //UPDATE YOUR DOCKER IMAGE 
           ports:
             - containerPort: 5173
           env:
