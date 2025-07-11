@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gcr.io/eighth-pen-462206-k3/backend-auction
+          image: gcr.io/PROJECT_ID/backend-auction                                                       //UPDATE YOUR DOCKER IMAGE 
           ports:
             - containerPort: 5000
           envFrom:
