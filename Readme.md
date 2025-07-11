@@ -281,6 +281,36 @@ kubectl apply -f k8s/ingress.yaml
 
 ---
 
+## Install ArgoCD 
+follow the documentation --> https://argo-cd.readthedocs.io/en/stable/getting_started/
+
+Patch and expose the service to LoadBalancer & Access the ArgoCD UI ,Generate password and Login 
+
+### Create App or use yaml given below
+```bash
+kubectl apply -f - <<EOF
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bidstream
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+    targetRevision: main
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+EOF
+```
+
+
 ## 🖥️ Kubernetes Dashboard Setup
 
 ### 📦 Deploy Kubernetes Dashboard
