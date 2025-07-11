@@ -35,6 +35,11 @@ BidStream/
 ```
 
 ---
+## Open CloudShell and Open Editor (VS CODE by default in GKE cluster)
+then,
+```bash
+git clone https://github.com/Piyushshrii/Mern_bidding_BidStream.git
+```
 
 ## 🧪 Sample .env.docker Files (Development vs Production)
 
